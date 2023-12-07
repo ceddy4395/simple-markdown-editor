@@ -1,8 +1,7 @@
-/*global require,module*/
 "use strict";
-var CodeMirror = require("codemirror");
+const CodeMirror = require("codemirror");
 require("codemirror/addon/edit/continuelist.js");
-require("./codemirror/tablist");
+require("./codemirror/tablist.js");
 require("codemirror/addon/display/fullscreen.js");
 require("codemirror/mode/markdown/markdown.js");
 require("codemirror/addon/mode/overlay.js");
@@ -10,15 +9,16 @@ require("codemirror/addon/display/placeholder.js");
 require("codemirror/addon/selection/mark-selection.js");
 require("codemirror/mode/gfm/gfm.js");
 require("codemirror/mode/xml/xml.js");
-var CodeMirrorSpellChecker = require("codemirror-spell-checker");
-var marked = require("marked");
+const CodeMirrorSpellChecker = require("codemirror-spell-checker");
+const marked = require("marked");
+// const fontawesome = require("fontawesome");
 
 
 // Some variables
-var isMac = /Mac/.test(navigator.platform);
+const isMac = /Mac/.test(navigator.platform);
 
 // Mapping of actions that can be bound to keyboard shortcuts or toolbar buttons
-var bindings = {
+const bindings = {
 	"toggleBold": toggleBold,
 	"toggleItalic": toggleItalic,
 	"drawLink": drawLink,
@@ -43,7 +43,7 @@ var bindings = {
 	"toggleFullScreen": toggleFullScreen
 };
 
-var shortcuts = {
+const shortcuts = {
 	"toggleBold": "Cmd-B",
 	"toggleItalic": "Cmd-I",
 	"drawLink": "Cmd-K",
@@ -60,9 +60,9 @@ var shortcuts = {
 	"toggleFullScreen": "F11"
 };
 
-var getBindingName = function(f) {
-	for(var key in bindings) {
-		if(bindings[key] === f) {
+const getBindingName = function (f) {
+	for (var key in bindings) {
+		if (bindings[key] === f) {
 			return key;
 		}
 	}
@@ -335,7 +335,7 @@ function toggleCodeBlock(editor) {
 	var block_start, block_end, lineCount;
 
 	if(is_code === "single") {
-		// similar to some SimpleMDE _toggleBlock logic
+		// similar to some Markdowneditor _toggleBlock logic
 		var start = line.text.slice(0, cur_start.ch).replace("`", ""),
 			end = line.text.slice(cur_start.ch).replace("`", "");
 		cm.replaceRange(start + end, {
@@ -1259,9 +1259,9 @@ var blockStyles = {
 };
 
 /**
- * Interface of SimpleMDE.
+ * Interface of Markdowneditor.
  */
-function SimpleMDE(options) {
+function Markdowneditor(options) {
 	// Handle options parameter
 	options = options || {};
 
@@ -1271,30 +1271,36 @@ function SimpleMDE(options) {
 
 
 	// Check if Font Awesome needs to be auto downloaded
-	var autoDownloadFA = true;
-
-	if(options.autoDownloadFontAwesome === false) {
-		autoDownloadFA = false;
-	}
-
-	if(options.autoDownloadFontAwesome !== true) {
-		var styleSheets = document.styleSheets;
-		for(var i = 0; i < styleSheets.length; i++) {
-			if(!styleSheets[i].href)
-				continue;
-
-			if(styleSheets[i].href.indexOf("//maxcdn.bootstrapcdn.com/font-awesome/") > -1) {
-				autoDownloadFA = false;
-			}
-		}
-	}
-
-	if(autoDownloadFA) {
-		var link = document.createElement("link");
-		link.rel = "stylesheet";
-		link.href = "https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css";
-		document.getElementsByTagName("head")[0].appendChild(link);
-	}
+	// var autoDownloadFA = true;
+	//
+	// if(options.autoDownloadFontAwesome === false) {
+	// 	autoDownloadFA = false;
+	// }
+	//
+	// if(options.autoDownloadFontAwesome !== true) {
+	// 	var styleSheets = document.styleSheets;
+	// 	for(var i = 0; i < styleSheets.length; i++) {
+	// 		if(!styleSheets[i].href)
+	// 			continue;
+	//
+	// 		if(styleSheets[i].href.indexOf("//maxcdn.bootstrapcdn.com/font-awesome/") > -1) {
+	// 			autoDownloadFA = false;
+	// 		}
+	// 	}
+	// }
+	//
+	// if(autoDownloadFA) {
+	// 	var link = document.createElement("link");
+	// 	link.rel = "stylesheet";
+	// 	link.href = "https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css";
+	// 	document.getElementsByTagName("head")[0].appendChild(link);
+	// }
+	// if (!fontawesome) {
+	// 	const link = document.createElement("link");
+	// 	link.rel = "stylesheet";
+	// 	link.href = "https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css";
+	// 	document.getElementsByTagName("head")[0].appendChild(link);
+	// }
 
 
 	// Find the textarea to use
@@ -1302,7 +1308,7 @@ function SimpleMDE(options) {
 		this.element = options.element;
 	} else if(options.element === null) {
 		// This means that the element option was specified, but no element was found
-		console.log("SimpleMDE: Error. No element was found.");
+		console.log("Markdowneditor: Error. No element was found.");
 		return;
 	}
 
@@ -1313,7 +1319,7 @@ function SimpleMDE(options) {
 		options.toolbar = [];
 
 
-		// Loop over the built in buttons, to get the preferred order
+		// Loop over the built-in buttons, to get the preferred order
 		for(var key in toolbarBuiltInButtons) {
 			if(toolbarBuiltInButtons.hasOwnProperty(key)) {
 				if(key.indexOf("separator-") != -1) {
@@ -1389,7 +1395,7 @@ function SimpleMDE(options) {
 /**
  * Default markdown render.
  */
-SimpleMDE.prototype.markdown = function(text) {
+Markdowneditor.prototype.markdown = function(text) {
 	if(marked) {
 		// Initialize
 		var markedOptions = {};
@@ -1421,7 +1427,7 @@ SimpleMDE.prototype.markdown = function(text) {
 /**
  * Render editor to the given element.
  */
-SimpleMDE.prototype.render = function(el) {
+Markdowneditor.prototype.render = function(el) {
 	if(!el) {
 		el = this.element || document.getElementsByTagName("textarea")[0];
 	}
@@ -1542,12 +1548,12 @@ function isLocalStorageAvailable() {
 	return true;
 }
 
-SimpleMDE.prototype.autosave = function() {
+Markdowneditor.prototype.autosave = function() {
 	if(isLocalStorageAvailable()) {
 		var simplemde = this;
 
 		if(this.options.autosave.uniqueId == undefined || this.options.autosave.uniqueId == "") {
-			console.log("SimpleMDE: You must set a uniqueId to use the autosave feature");
+			console.log("Markdowneditor: You must set a uniqueId to use the autosave feature");
 			return;
 		}
 
@@ -1591,24 +1597,24 @@ SimpleMDE.prototype.autosave = function() {
 			simplemde.autosave();
 		}, this.options.autosave.delay || 10000);
 	} else {
-		console.log("SimpleMDE: localStorage not available, cannot autosave");
+		console.log("Markdowneditor: localStorage not available, cannot autosave");
 	}
 };
 
-SimpleMDE.prototype.clearAutosavedValue = function() {
+Markdowneditor.prototype.clearAutosavedValue = function() {
 	if(isLocalStorageAvailable()) {
 		if(this.options.autosave == undefined || this.options.autosave.uniqueId == undefined || this.options.autosave.uniqueId == "") {
-			console.log("SimpleMDE: You must set a uniqueId to clear the autosave value");
+			console.log("Markdowneditor: You must set a uniqueId to clear the autosave value");
 			return;
 		}
 
 		localStorage.removeItem("smde_" + this.options.autosave.uniqueId);
 	} else {
-		console.log("SimpleMDE: localStorage not available, cannot autosave");
+		console.log("Markdowneditor: localStorage not available, cannot autosave");
 	}
 };
 
-SimpleMDE.prototype.createSideBySide = function() {
+Markdowneditor.prototype.createSideBySide = function() {
 	var cm = this.codemirror;
 	var wrapper = cm.getWrapperElement();
 	var preview = wrapper.nextSibling;
@@ -1649,7 +1655,7 @@ SimpleMDE.prototype.createSideBySide = function() {
 	return preview;
 };
 
-SimpleMDE.prototype.createToolbar = function(items) {
+Markdowneditor.prototype.createToolbar = function(items) {
 	items = items || this.options.toolbar;
 
 	if(!items || items.length === 0) {
@@ -1748,7 +1754,7 @@ SimpleMDE.prototype.createToolbar = function(items) {
 	return bar;
 };
 
-SimpleMDE.prototype.createStatusbar = function(status) {
+Markdowneditor.prototype.createStatusbar = function(status) {
 	// Initialize
 	status = status || this.options.status;
 	var options = this.options;
@@ -1866,7 +1872,7 @@ SimpleMDE.prototype.createStatusbar = function(status) {
 /**
  * Get or set the text content.
  */
-SimpleMDE.prototype.value = function(val) {
+Markdowneditor.prototype.value = function(val) {
 	if(val === undefined) {
 		return this.codemirror.getValue();
 	} else {
@@ -1879,100 +1885,100 @@ SimpleMDE.prototype.value = function(val) {
 /**
  * Bind static methods for exports.
  */
-SimpleMDE.toggleBold = toggleBold;
-SimpleMDE.toggleItalic = toggleItalic;
-SimpleMDE.toggleStrikethrough = toggleStrikethrough;
-SimpleMDE.toggleBlockquote = toggleBlockquote;
-SimpleMDE.toggleHeadingSmaller = toggleHeadingSmaller;
-SimpleMDE.toggleHeadingBigger = toggleHeadingBigger;
-SimpleMDE.toggleHeading1 = toggleHeading1;
-SimpleMDE.toggleHeading2 = toggleHeading2;
-SimpleMDE.toggleHeading3 = toggleHeading3;
-SimpleMDE.toggleCodeBlock = toggleCodeBlock;
-SimpleMDE.toggleUnorderedList = toggleUnorderedList;
-SimpleMDE.toggleOrderedList = toggleOrderedList;
-SimpleMDE.cleanBlock = cleanBlock;
-SimpleMDE.drawLink = drawLink;
-SimpleMDE.drawImage = drawImage;
-SimpleMDE.drawTable = drawTable;
-SimpleMDE.drawHorizontalRule = drawHorizontalRule;
-SimpleMDE.undo = undo;
-SimpleMDE.redo = redo;
-SimpleMDE.togglePreview = togglePreview;
-SimpleMDE.toggleSideBySide = toggleSideBySide;
-SimpleMDE.toggleFullScreen = toggleFullScreen;
+Markdowneditor.toggleBold = toggleBold;
+Markdowneditor.toggleItalic = toggleItalic;
+Markdowneditor.toggleStrikethrough = toggleStrikethrough;
+Markdowneditor.toggleBlockquote = toggleBlockquote;
+Markdowneditor.toggleHeadingSmaller = toggleHeadingSmaller;
+Markdowneditor.toggleHeadingBigger = toggleHeadingBigger;
+Markdowneditor.toggleHeading1 = toggleHeading1;
+Markdowneditor.toggleHeading2 = toggleHeading2;
+Markdowneditor.toggleHeading3 = toggleHeading3;
+Markdowneditor.toggleCodeBlock = toggleCodeBlock;
+Markdowneditor.toggleUnorderedList = toggleUnorderedList;
+Markdowneditor.toggleOrderedList = toggleOrderedList;
+Markdowneditor.cleanBlock = cleanBlock;
+Markdowneditor.drawLink = drawLink;
+Markdowneditor.drawImage = drawImage;
+Markdowneditor.drawTable = drawTable;
+Markdowneditor.drawHorizontalRule = drawHorizontalRule;
+Markdowneditor.undo = undo;
+Markdowneditor.redo = redo;
+Markdowneditor.togglePreview = togglePreview;
+Markdowneditor.toggleSideBySide = toggleSideBySide;
+Markdowneditor.toggleFullScreen = toggleFullScreen;
 
 /**
  * Bind instance methods for exports.
  */
-SimpleMDE.prototype.toggleBold = function() {
+Markdowneditor.prototype.toggleBold = function() {
 	toggleBold(this);
 };
-SimpleMDE.prototype.toggleItalic = function() {
+Markdowneditor.prototype.toggleItalic = function() {
 	toggleItalic(this);
 };
-SimpleMDE.prototype.toggleStrikethrough = function() {
+Markdowneditor.prototype.toggleStrikethrough = function() {
 	toggleStrikethrough(this);
 };
-SimpleMDE.prototype.toggleBlockquote = function() {
+Markdowneditor.prototype.toggleBlockquote = function() {
 	toggleBlockquote(this);
 };
-SimpleMDE.prototype.toggleHeadingSmaller = function() {
+Markdowneditor.prototype.toggleHeadingSmaller = function() {
 	toggleHeadingSmaller(this);
 };
-SimpleMDE.prototype.toggleHeadingBigger = function() {
+Markdowneditor.prototype.toggleHeadingBigger = function() {
 	toggleHeadingBigger(this);
 };
-SimpleMDE.prototype.toggleHeading1 = function() {
+Markdowneditor.prototype.toggleHeading1 = function() {
 	toggleHeading1(this);
 };
-SimpleMDE.prototype.toggleHeading2 = function() {
+Markdowneditor.prototype.toggleHeading2 = function() {
 	toggleHeading2(this);
 };
-SimpleMDE.prototype.toggleHeading3 = function() {
+Markdowneditor.prototype.toggleHeading3 = function() {
 	toggleHeading3(this);
 };
-SimpleMDE.prototype.toggleCodeBlock = function() {
+Markdowneditor.prototype.toggleCodeBlock = function() {
 	toggleCodeBlock(this);
 };
-SimpleMDE.prototype.toggleUnorderedList = function() {
+Markdowneditor.prototype.toggleUnorderedList = function() {
 	toggleUnorderedList(this);
 };
-SimpleMDE.prototype.toggleOrderedList = function() {
+Markdowneditor.prototype.toggleOrderedList = function() {
 	toggleOrderedList(this);
 };
-SimpleMDE.prototype.cleanBlock = function() {
+Markdowneditor.prototype.cleanBlock = function() {
 	cleanBlock(this);
 };
-SimpleMDE.prototype.drawLink = function() {
+Markdowneditor.prototype.drawLink = function() {
 	drawLink(this);
 };
-SimpleMDE.prototype.drawImage = function() {
+Markdowneditor.prototype.drawImage = function() {
 	drawImage(this);
 };
-SimpleMDE.prototype.drawTable = function() {
+Markdowneditor.prototype.drawTable = function() {
 	drawTable(this);
 };
-SimpleMDE.prototype.drawHorizontalRule = function() {
+Markdowneditor.prototype.drawHorizontalRule = function() {
 	drawHorizontalRule(this);
 };
-SimpleMDE.prototype.undo = function() {
+Markdowneditor.prototype.undo = function() {
 	undo(this);
 };
-SimpleMDE.prototype.redo = function() {
+Markdowneditor.prototype.redo = function() {
 	redo(this);
 };
-SimpleMDE.prototype.togglePreview = function() {
+Markdowneditor.prototype.togglePreview = function() {
 	togglePreview(this);
 };
-SimpleMDE.prototype.toggleSideBySide = function() {
+Markdowneditor.prototype.toggleSideBySide = function() {
 	toggleSideBySide(this);
 };
-SimpleMDE.prototype.toggleFullScreen = function() {
+Markdowneditor.prototype.toggleFullScreen = function() {
 	toggleFullScreen(this);
 };
 
-SimpleMDE.prototype.isPreviewActive = function() {
+Markdowneditor.prototype.isPreviewActive = function() {
 	var cm = this.codemirror;
 	var wrapper = cm.getWrapperElement();
 	var preview = wrapper.lastChild;
@@ -1980,7 +1986,7 @@ SimpleMDE.prototype.isPreviewActive = function() {
 	return /editor-preview-active/.test(preview.className);
 };
 
-SimpleMDE.prototype.isSideBySideActive = function() {
+Markdowneditor.prototype.isSideBySideActive = function() {
 	var cm = this.codemirror;
 	var wrapper = cm.getWrapperElement();
 	var preview = wrapper.nextSibling;
@@ -1988,19 +1994,19 @@ SimpleMDE.prototype.isSideBySideActive = function() {
 	return /editor-preview-active-side/.test(preview.className);
 };
 
-SimpleMDE.prototype.isFullscreenActive = function() {
+Markdowneditor.prototype.isFullscreenActive = function() {
 	var cm = this.codemirror;
 
 	return cm.getOption("fullScreen");
 };
 
-SimpleMDE.prototype.getState = function() {
+Markdowneditor.prototype.getState = function() {
 	var cm = this.codemirror;
 
 	return getState(cm);
 };
 
-SimpleMDE.prototype.toTextArea = function() {
+Markdowneditor.prototype.toTextArea = function() {
 	var cm = this.codemirror;
 	var wrapper = cm.getWrapperElement();
 
@@ -2025,4 +2031,4 @@ SimpleMDE.prototype.toTextArea = function() {
 	}
 };
 
-module.exports = SimpleMDE;
+module.exports = Markdowneditor;

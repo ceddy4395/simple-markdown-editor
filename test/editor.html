@@ -1,0 +1,22 @@
+<html>
+<head>
+    <script src="../dist/markdowneditor.js"></script>
+    <link rel="stylesheet" href="../dist/markdowneditor.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+        <section>
+            <h3>This is an editor</h3>
+            <div class="editor">
+                <textarea id="markdown-editor" name="editor"></textarea>
+            </div>
+
+            <script type="module">
+                // import {Markdowneditor} from "./markdowneditor.js";
+				let ide = new Markdowneditor({element: document.getElementById("markdown-editor"), forceSync: true});
+            </script>
+        </section>
+
+    </body>
+
+</html>

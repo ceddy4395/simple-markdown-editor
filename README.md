@@ -1,24 +1,27 @@
-# SimpleMDE - Markdown Editor
-A drop-in JavaScript textarea replacement for writing beautiful and understandable Markdown. The WYSIWYG-esque editor allows users who may be less experienced with Markdown to use familiar toolbar buttons and shortcuts. In addition, the syntax is rendered while editing to clearly show the expected result. Headings are larger, emphasized words are italicized, links are underlined, etc. SimpleMDE is one of the first editors to feature both built-in autosaving and spell checking.
-
-[**Demo**](https://simplemde.com)
-
-[![Preview](http://i.imgur.com/zqWfJwO.png)](https://simplemde.com)
+# Simple Markdown Editor
+A drop-in JavaScript textarea replacement for writing beautiful and understandable Markdown. The WYSIWYG-esque editor allows users who may be less experienced with Markdown to use familiar toolbar buttons and shortcuts. In addition, the syntax is rendered while editing to clearly show the expected result. Headings are larger, emphasized words are italicized, links are underlined, etc. Markdowneditor is one of the first editors to feature both built-in autosaving and spell checking.
 
 ## Why not a WYSIWYG editor or pure Markdown?
-WYSIWYG editors that produce HTML are often complex and buggy. Markdown solves this problem in many ways, plus Markdown can be rendered natively on more platforms than HTML. However, Markdown is not a syntax that an average user will be familiar with, nor is it visually clear while editing. In otherwords, for an unfamiliar user, the syntax they write will make little sense until they click the preview button. SimpleMDE has been designed to bridge this gap for non-technical users who are less familiar with or just learning Markdown syntax.
+WYSIWYG editors that produce HTML are often complex and buggy. Markdown solves this problem in many ways, plus Markdown can be rendered natively on more platforms than HTML. However, Markdown is not a syntax that an average user will be familiar with, nor is it visually clear while editing. In otherwords, for an unfamiliar user, the syntax they write will make little sense until they click the preview button. Markdowneditor has been designed to bridge this gap for non-technical users who are less familiar with or just learning Markdown syntax.
 
 ## Install
 
-Via [npm](https://www.npmjs.com/package/simplemde).
-```
-npm install simplemde --save
-```
+[//]: # (Via [npm]&#40;https://www.npmjs.com/package/simplemde&#41;.)
 
-Via [bower](https://www.bower.io).
-```
-bower install simplemde --save
-```
+[//]: # (```)
+
+[//]: # (npm install simplemde --save)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (Via [bower]&#40;https://www.bower.io&#41;.)
+
+[//]: # (```)
+
+[//]: # (bower install simplemde --save)
+
+[//]: # (```)
 
 Via [jsDelivr](https://www.jsdelivr.com/#!simplemde). *Please note, jsDelivr may take a few days to update to the latest release.*
 
@@ -29,11 +32,11 @@ Via [jsDelivr](https://www.jsdelivr.com/#!simplemde). *Please note, jsDelivr may
 
 ## Quick start
 
-After installing, load SimpleMDE on the first textarea on a page
+After installing, load Markdowneditor on the first textarea on a page
 
 ```HTML
 <script>
-var simplemde = new SimpleMDE();
+var simplemde = new Markdowneditor();
 </script>
 ```
 
@@ -43,7 +46,7 @@ Pure JavaScript method
 
 ```HTML
 <script>
-var simplemde = new SimpleMDE({ element: document.getElementById("MyID") });
+var simplemde = new Markdowneditor({ element: document.getElementById("MyID") });
 </script>
 ```
 
@@ -51,7 +54,7 @@ jQuery method
 
 ```HTML
 <script>
-var simplemde = new SimpleMDE({ element: $("#MyID")[0] });
+var simplemde = new Markdowneditor({ element: $("#MyID")[0] });
 </script>
 ```
 
@@ -72,13 +75,13 @@ simplemde.value("This text will appear in the editor");
 - **autosave**: *Saves the text that's being written and will load it back in the future. It will forget the text when the form it's contained in is submitted.*
   - **enabled**: If set to `true`, autosave the text. Defaults to `false`.
   - **delay**: Delay between saves, in milliseconds. Defaults to `10000` (10s).
-  - **uniqueId**: You must set a unique string identifier so that SimpleMDE can autosave. Something that separates this from other instances of SimpleMDE elsewhere on your website.
+  - **uniqueId**: You must set a unique string identifier so that Markdowneditor can autosave. Something that separates this from other instances of Markdowneditor elsewhere on your website.
 - **blockStyles**: Customize how certain buttons that style blocks of text behave.
   - **bold** Can be set to `**` or `__`. Defaults to `**`.
   - **code** Can be set to  ```` ``` ```` or `~~~`.  Defaults to ```` ``` ````.
   - **italic** Can be set to `*` or `_`. Defaults to `*`.
 - **element**: The DOM element for the textarea to use. Defaults to the first textarea on the page.
-- **forceSync**: If set to `true`, force text changes made in SimpleMDE to be immediately stored in original textarea. Defaults to `false`.
+- **forceSync**: If set to `true`, force text changes made in Markdowneditor to be immediately stored in original textarea. Defaults to `false`.
 - **hideIcons**: An array of icon names to hide. Can be used to hide specific icons shown by default without completely customizing the toolbar.
 - **indentWithTabs**: If set to `false`, indent using spaces instead of tabs. Defaults to `true`.
 - **initialValue**: If set, will customize the initial value of the editor.
@@ -110,7 +113,7 @@ simplemde.value("This text will appear in the editor");
 
 ```JavaScript
 // Most options demonstrate the non-default behavior
-var simplemde = new SimpleMDE({
+var simplemde = new Markdowneditor({
 	autofocus: true,
 	autosave: {
 		enabled: true,
@@ -213,15 +216,15 @@ Customize the toolbar using the `toolbar` option like:
 
 ```JavaScript
 // Customize only the order of existing buttons
-var simplemde = new SimpleMDE({
+var simplemde = new Markdowneditor({
 	toolbar: ["bold", "italic", "heading", "|", "quote"],
 });
 
 // Customize all information and/or add your own icons
-var simplemde = new SimpleMDE({
+var simplemde = new Markdowneditor({
 	toolbar: [{
 			name: "bold",
-			action: SimpleMDE.toggleBold,
+			action: Markdowneditor.toggleBold,
 			className: "fa fa-bold",
 			title: "Bold",
 		},
@@ -241,7 +244,7 @@ var simplemde = new SimpleMDE({
 
 #### Keyboard shortcuts
 
-SimpleMDE comes with an array of predefined keyboard shortcuts, but they can be altered with a configuration option. The list of default ones is as follows:
+Markdowneditor comes with an array of predefined keyboard shortcuts, but they can be altered with a configuration option. The list of default ones is as follows:
 
 Shortcut | Action
 :------- | :-----
@@ -263,7 +266,7 @@ Shortcut | Action
 Here is how you can change a few, while leaving others untouched:
 
 ```JavaScript
-var simplemde = new SimpleMDE({
+var simplemde = new Markdowneditor({
 	shortcuts: {
 		"toggleOrderedList": "Ctrl-Alt-K", // alter the shortcut for toggleOrderedList
 		"toggleCodeBlock": null, // unbind Ctrl-Alt-C
@@ -298,27 +301,27 @@ Or, you can keep the height static:
 You can catch the following list of events: https://codemirror.net/doc/manual.html#events
 
 ```JavaScript
-var simplemde = new SimpleMDE();
+var simplemde = new Markdowneditor();
 simplemde.codemirror.on("change", function(){
 	console.log(simplemde.value());
 });
 ```
 
-## Removing SimpleMDE from textarea
-You can revert to the initial textarea by calling the `toTextArea` method. Note that this clears up the autosave (if enabled) associated with it. The textarea will retain any text from the destroyed SimpleMDE instance.
+## Removing Markdowneditor from textarea
+You can revert to the initial textarea by calling the `toTextArea` method. Note that this clears up the autosave (if enabled) associated with it. The textarea will retain any text from the destroyed Markdowneditor instance.
 
 ```JavaScript
-var simplemde = new SimpleMDE();
+var simplemde = new Markdowneditor();
 ...
 simplemde.toTextArea();
 simplemde = null;
 ```
 
 ## Useful methods
-The following self-explanatory methods may be of use while developing with SimpleMDE.
+The following self-explanatory methods may be of use while developing with Markdowneditor.
 
 ```js
-var simplemde = new SimpleMDE();
+var simplemde = new Markdowneditor();
 simplemde.isPreviewActive(); // returns boolean
 simplemde.isSideBySideActive(); // returns boolean
 simplemde.isFullscreenActive(); // returns boolean
@@ -326,6 +329,6 @@ simplemde.clearAutosavedValue(); // no returned value
 ```
 
 ## How it works
-SimpleMDE began as an improvement of [lepture's Editor project](https://github.com/lepture/editor), but has now taken on an identity of its own. It is bundled with [CodeMirror](https://github.com/codemirror/codemirror) and depends on [Font Awesome](http://fontawesome.io).
+Markdowneditor began as an improvement of [lepture's Editor project](https://github.com/lepture/editor), but has now taken on an identity of its own. It is bundled with [CodeMirror](https://github.com/codemirror/codemirror) and depends on [Font Awesome](http://fontawesome.io).
 
 CodeMirror is the backbone of the project and parses much of the Markdown syntax as it's being written. This allows us to add styles to the Markdown that's being written. Additionally, a toolbar and status bar have been added to the top and bottom, respectively. Previews are rendered by [Marked](https://github.com/chjj/marked) using GFM.
