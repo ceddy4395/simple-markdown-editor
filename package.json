@@ -22,7 +22,7 @@
     "url": "https://github.com/ceddy4395/simple-markdown-editor"
   },
   "dependencies": {
-    "codemirror": "5.65.16",
+    "codemirror": "5.65.12",
     "codemirror-spell-checker": "1.1.2",
     "fontawesome": "5.6.3",
     "marked": "6.0.0"
